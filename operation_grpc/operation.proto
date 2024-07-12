@@ -1,0 +1,34 @@
+syntax = "proto3"; // Utilisation de la syntaxe proto3 pour la définition des messages et services gRPC
+
+// Option pour spécifier le package Go généré pour le fichier proto
+option go_package="rt0805/tp_app/operation_grpc";
+
+// Définition du message Operation
+message Operation {
+  string Type = 1;         // Champ pour spécifier le type d'opération
+  bool HasSucceeded = 2;   // Champ pour indiquer si l'opération a réussi
+}
+
+// Définition du message Device
+message Device {
+  string Name = 1;                      // Champ pour le nom de l'appareil
+  int32 Total_operations = 2;           // Champ pour le nombre total d'opérations
+  int32 Failed_operations = 3;          // Champ pour le nombre d'opérations échouées
+  repeated Operation Operations = 4;    // Champ pour une liste d'opérations
+}
+
+// Définition du service DeviceService
+service DeviceService {
+  // Définition de la RPC SendData qui prend un DeviceDataRequest et retourne un DeviceDataResponse
+  rpc SendData(DeviceDataRequest) returns (DeviceDataResponse) {}
+}
+
+// Définition du message DeviceDataRequest
+message DeviceDataRequest {
+  Device device = 1; // Champ pour inclure les informations de l'appareil dans la requête
+}
+
+// Définition du message DeviceDataResponse
+message DeviceDataResponse {
+  bool success = 1; // Champ pour indiquer le succès de la requête
+}
